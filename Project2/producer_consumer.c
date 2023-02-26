@@ -13,8 +13,8 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR(AUTHOR);
 
 module_param(buff_size, int, 1);
-module_param(prod, int, 0);
-module_param(cons, int, 0);
+module_param(p, int, 0);
+module_param(c, int, 0);
 module_param(uuid, int, 1);
 
 // the function to run in the thead

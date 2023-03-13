@@ -242,3 +242,23 @@ Code: module_exit()
 ReadMe
 No Binaries
 */
+	
+/* Notes
+IS_ERR - used to check, Returns non-0 value if the ptr is an error. Otherwise 0 if it’s not an error.
+
+if (IS_ERR(ptr))
+     printk("Error here: %ld", PTR_ERR(ptr));
+     
+static inline long __must_check IS_ERR(const void *ptr)
+{
+    return IS_ERR_VALUE((unsigned long)ptr);
+}
+     
+PTR_ERR - used to print. Current value of the pointer.
+
+static inline long __must_check PTR_ERR(const void *ptr)
+{
+    return (long) ptr;
+}
+
+*/

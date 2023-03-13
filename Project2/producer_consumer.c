@@ -39,6 +39,7 @@ struct semaphore mutex;
 long total_time;
 int error;
 
+	// consumer struct
 struct consumer{
 	struct task_struct *consumer_thread;
 	struct consumer_node *next;

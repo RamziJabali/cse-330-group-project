@@ -197,3 +197,30 @@ printk(KERN_INFO "" )
   
 module_init(sema_init);
 module_exit(sema_exit);
+	
+/* Project Requirments
+
+	// Test cases
+This criterion is linked to a Learning OutcomeTest Case -1
+./test.sh 10 5 1 0 25
+This criterion is linked to a Learning OutcomeTest Case -2
+./test.sh 10 5 0 1 25
+This criterion is linked to a Learning OutcomeTest Case -3
+./test.sh 10 50 1 1 25
+Test Case -4
+./test.sh 100 50 1 1 25
+Test Case -5
+./test.sh 1000 50 1 1 100
+
+	// Must be included
+Code: module_init and semaphore initialization
+Code: thread creation.
+Code: semaphore usage by the producer
+Code: semaphore usage by the consumer
+Code: task list iteration
+Code: buffer consumption
+Code: kthread_should_stop()
+Code: module_exit()
+ReadMe
+No Binaries
+*/

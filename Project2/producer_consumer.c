@@ -14,41 +14,30 @@ MODULE_AUTHOR(AUTHOR);
 
 /////////////////////////////// Data Declaration
 
-// Initialize params   
+	// Initialize params   
 static int uid = 0;
 static int buff_size = 0;
 static int p = 0;
 static int c = 0;
 
 	// takes input arguments and assigns to respective variables
-module_param(buff_size, int, 0);
-module_param(p, int, 0);
-module_param(c, int, 0);
-module_param(uuid, int, 0);
+module_param(buff_size, int, 0644); 	// The buffer size
+module_param(p, int, 0644);		// number of producers(0 or 1)
+module_param(c, int, 0644);     	// number of consumers(a non-negative number)
+module_param(uuid, int, 0644);		// The UID of the user
 
-// Declare producer and consumer functions
+	// Declare producer and consumer functions
 static int consumer_func(void *arg);
 static int producer_func(void *arg);
-
-// the function to run in the thead
-static int kthread_func(void *arg) {
-
-}
-// Create and run "thread-1"
-ts1 = kthread_run(kthread_func, NULL, "thread-1");
-
-for_each_process(struct task_struct *p) // On each iteration, p points to the next task in the list.
-task_struct *task;
-task->pid // PID of the process
-task->cred->uid.val // UID of the user of the process
 
   // Semaphore declaration
 struct semaphore empty;
 struct semaphore full;
 struct semaphore mutex;
 
-// Define a global int to track total task time
+// Define a global int to track total task time and error 
 long total_time;
+int error;
 
 struct consumer{
 	struct task_struct *consumer_thread;
@@ -111,10 +100,27 @@ static int producer_func(void *arg)
 	struct task_struct* p;
 	size_t process_counter = 0;
 	for_each_process(p){
-		if(){
-		
-			
+		if (task->cred->uid.val == uuid < buff_size) {
+				//increment counter
 			++process_counter;
+			
+				// busy wait until empty nodes are available in the buffer
+			if(down_interruptible(&empty)) 
+	            	{
+	            	    break;
+	            	}
+	
+            		if(down_interruptible(&mutex)) 
+            		{
+            		    break;
+            		}
+			
+				//create a new node in the linked list
+			
+			
+				// increment the semaphores
+			up(&mutex);
+			up(&full);
 		}
 	}
 	
@@ -127,6 +133,7 @@ static int consumer_func(void *arg)
 	
 	while (!kthread_should_stop())
 	{
+			// busy wait
 		if (down_interruptible(&full))
 		{
 			break;
@@ -182,7 +189,9 @@ kthread_stop(struct task_struct *k)
 kthread_should_stop(void)
 	
 static void __exit sema_exit(){
-
+	
+printk(KERN_INFO "" )
+	
 }
   
 module_init(sema_init);

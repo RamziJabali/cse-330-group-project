@@ -37,8 +37,7 @@ static int kthread_func(void *arg) {
 // Create and run "thread-1"
 ts1 = kthread_run(kthread_func, NULL, "thread-1");
 
-for_each_process(struct task_struct *p) // On each iteration, p
-points to the next task in the list.
+for_each_process(struct task_struct *p) // On each iteration, p points to the next task in the list.
 task_struct *task;
 task->pid // PID of the process
 task->cred->uid.val // UID of the user of the process

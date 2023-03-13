@@ -21,21 +21,26 @@ static int p = 0;
 static int c = 0;
 
 	// takes input arguments and assigns to respective variables
-module_param(buff_size, int, 0644); 	// The buffer size
-module_param(p, int, 0644);		// number of producers(0 or 1)
-module_param(c, int, 0644);     	// number of consumers(a non-negative number)
-module_param(uuid, int, 0644);		// The UID of the user
+module_param(buff_size, int, 0); 	// The buffer size
+module_param(p, int, 0);		// number of producers(0 or 1)
+module_param(c, int, 0);     	// number of consumers(a non-negative number)
+module_param(uuid, int, 0);		// The UID of the user
 
 	// Declare producer and consumer functions
-static int consumer_func(void *arg);
-static int producer_func(void *arg);
+static int consumer(void *arg);
+static int producer(void *arg);
 
   // Semaphore declaration
 struct semaphore empty;
 struct semaphore full;
 struct semaphore mutex;
 
-// Define a global int to track total task time and error 
+	// A consumer pointer variable
+struct task_struct *consumer;
+	// producer pointer
+struct task_struct *producer;
+
+// Define a global int to track total task time and error  variable
 long total_time;
 int error;
 
@@ -47,7 +52,7 @@ struct consumer{
 
 // buffer struct declaration
 struct buffer{
-	int capacity;
+	int capacity;	// buffers capacity
 	struct task_node *head;
 } buffer;
 
@@ -56,18 +61,6 @@ struct task_node{
 	struct task_struct *task;
 	struct task_node *next;
 } task_list;
-
-static inline void sema_init(struct semaphore *sem, int val) // a function to initialize a semaphore structure
-  
-  // acquire lock (down, release a lock (up)
-void down_interruptible(struct semaphore *sem) // acquire a lock
-void up(struct semaphore *sem) // release a lock
-
-struct semaphore name; // Defines a semaphore with a given name
-static inline void sema_init(struct semaphore *sem, int val) // a function to initialize a semaphore structure
-void down_interruptible(struct semaphore *sem) // acquire a lock
-void up(struct semaphore *sem) // release a lock
-
 
 ///////////////////////////////////
 	// needs work
@@ -83,11 +76,36 @@ static int __init sema_init(void)
     	task_list.task = NULL;
     	task_list.next = NULL;
 	
-	buffer.capacity = buff_size;
+	buffer.capacity = buff_size;	// this is passed in as an argument
 	buffer.head = &task_list;
 	
+		// check if there is no producers or consumers
+	
+		// start the consumer thread
+	if(c != 0){
+	
+			// create a new consumer
+		consumer = kthread_run(consumer, NULL, "consumer");
+	
+		if (IS_ERR(consumer))
+    		{
+				
+		}
 
-return 0;
+	}
+	
+		// start the producer thread
+	if(p != 0){
+		
+		producer = kthread_run(producer, NULL, "producer");
+		
+		if (){
+		
+		}
+		
+	}	
+	
+	return 0;
   
 }
 
@@ -96,7 +114,7 @@ sema_init(&empty, 5); // init the semaphore as 5
 // if the thread works in an infinite loop, this is how it knows when to stop. Check (4) module_exit for more information.
 
 	// needs work
-static int producer_func(void *arg)
+static int producer(void *arg)
 {
 	struct task_struct* p;
 	size_t process_counter = 0;
@@ -129,7 +147,7 @@ static int producer_func(void *arg)
 	return 0;
 }
   
-static int consumer_func(void *arg)
+static int consumer(void *arg)
 {
 	
 	while (!kthread_should_stop())

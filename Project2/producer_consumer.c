@@ -187,7 +187,7 @@ static int consumer(void *arg)
 		long current_time = ktime_get_ns();
 		long start_time = temp->task->start_time;
 		long task_time = current_time - start_time;
-		u64 base = task_time/1000000000;
+		long base = task_time/1000000000;
 		int hours = base/3600;
 		int minutes = (base - (hours*3600))/60;
 		int seconds = base - (hours*3600) - (minutes*60);

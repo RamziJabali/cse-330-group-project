@@ -44,11 +44,11 @@ struct consumer{
 	struct consumer_node *next;
 } consumer;
 
-// data struct declaration
-struct data{
+// buffer struct declaration
+struct buffer{
 	int capacity;
 	struct task_node *head;
-} data;
+} buffer;
 
 // Linked List declaration 
 struct task_node{
@@ -82,8 +82,8 @@ static int __init sema_init(void)
     	task_list.task = NULL;
     	task_list.next = NULL;
 	
-	data.capacity = buff_size;
-	data.head = &task_list;
+	buffer.capacity = buff_size;
+	buffer.head = &task_list;
 	
 
 return 0;
@@ -143,17 +143,17 @@ static int consumer_func(void *arg)
 			break;
 		}
 			// if the consumer attempts to take from an empty buffer
-		if(data.head == NULL)
+		if(buffer.head == NULL)
 		{
           	  printk(KERN_INFO "error");
         	}else
 		{
 		struct task_node *temp;
-		temp = data.head;
+		temp = buffer.head;
 		
 		// traverse temp linked list
 		if(temp->next != NULL){
-			data.head = data.head->next;
+			buffer.head = buffer.head->next;
 		}else{
 			printk(KERN_INFO "" )
 		}

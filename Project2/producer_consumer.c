@@ -68,9 +68,9 @@ static int __init sema_init(void)
 {
 
     	  // Initialize semaphores
-    	sema_init(&empty, buff_size);
-    	sema_init(&full, 0); 
-    	sema_init(&mutex, 1);
+    	sema_init(&empty, buff_size);	// set to buffer size
+    	sema_init(&full, 0); 		// set to 0
+    	sema_init(&mutex, 1);		// lock
   
     	  // set the initial values to NULL in the linked list
     	task_list.task = NULL;
@@ -80,6 +80,9 @@ static int __init sema_init(void)
 	buffer.head = &task_list;
 	
 		// check if there is no producers or consumers
+	if(c == 0 || p == 0){
+		return 0;
+	}
 	
 		// start the consumer thread
 	if(c != 0){
@@ -89,7 +92,9 @@ static int __init sema_init(void)
 	
 		if (IS_ERR(consumer))
     		{
-				
+			error = PTR_ERR(consumer);	
+			consumer = NULL:
+			return error;
 		}
 
 	}
@@ -99,8 +104,10 @@ static int __init sema_init(void)
 		
 		producer = kthread_run(producer, NULL, "producer");
 		
-		if (){
-		
+		if (IS_ERR(producer)){
+			error = PTR_ERR(producer);	
+			producer = NULL:
+			return error;
 		}
 		
 	}	
@@ -241,6 +248,16 @@ Code: kthread_should_stop()
 Code: module_exit()
 ReadMe
 No Binaries
+
+For each item your kernel module produces, print the following information in the mentioned format in the kernel log:
+
+[<Producer-thread-name>] Produced Item#-<Item-Num> at buffer index:
+<buffer-index> for PID:<PID of the process>
+
+Example:
+[Producer-1] Produced Item#-12 at buffer index:1 for PID:136042
+
+
 */
 	
 /* Notes

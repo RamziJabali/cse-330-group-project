@@ -186,21 +186,20 @@ static int consumer(void *arg)
 			printk(KERN_INFO "" )
 		}
 			
-		long current_time = ktime_get_ns();
-		long start_time = temp->task->start_time;
-		long task_time = current_time - start_time;
-		long base = task_time/1000000000;
-		int hours = base/3600;
-		int minutes = (base - (hours*3600))/60;
-		int seconds = base - (hours*3600) - (minutes*60);
-		total_time += task_time;
+		long current_time = ktime_get_ns();	// get current time from api
+		long start_time = temp->task->start_time;	// start time
+		long task_time = current_time - start_time;	// time task took to complete
+		long base = task_time/1000000000; //total time in secs
+		int hours = base/3600; 	// hours
+		int minutes = (base - (hours*3600))/60;	// minutes
+		int seconds = base - (hours*3600) - (minutes*60);	// seconds
+		total_time += task_time;	// total time sum
 			
 			// add print statement
-		printk()
+		printk(KERN_INFO "[%s] consumed Item#-%d on buffer index: %d PID:%d Elapsed Time- %02d:%02d:%02d\n", enter variables here)
 			
-				  // increment semaphores
+			// increment semaphores
 	        up(&mutex);
-	
         	up(&empty);
 		}
 	
@@ -281,4 +280,9 @@ static inline long __must_check PTR_ERR(const void *ptr)
     return (long) ptr;
 }
 
+
+##############
+kthread_should_stop - When someone calls kthread_stop on your kthread, it will be woken and this will return true. You should then return, and your return value will be passed through to kthread_stop.
+kthread_run - create and wake a thread.
+down_interruptible() - it means if semaphore is not available the respective process will be put on the semaphore wait-queue. And task state will be change to TASK_INTERRUPTIBLE and scheduler will invoked to run any other process. Now the sleeping process can be wake up either by the event for it waiting (semaphore) or by the signal.
 */

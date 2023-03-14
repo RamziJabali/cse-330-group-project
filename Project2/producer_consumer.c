@@ -143,6 +143,8 @@ static int producer(void *arg)
 			
 				//create a new node in the linked list
 			
+				// print statement (example) - [Producer-1] Produced Item#-12 at buffer index:1 for PID:136042
+			printk(KERN_INFO "[%s] Produced Item#-%d at buffer index:%d for PID:%d", //[Producer-1], value, index,  p->pid);
 			
 				// increment the semaphores
 			up(&mutex);
@@ -192,7 +194,8 @@ static int consumer(void *arg)
 		int minutes = (base - (hours*3600))/60;
 		int seconds = base - (hours*3600) - (minutes*60);
 		total_time += task_time;
-		
+			
+			// add print statement
 		printk()
 			
 				  // increment semaphores

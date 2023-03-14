@@ -142,6 +142,25 @@ static int producer(void *arg)
             		}
 			
 				//create a new node in the linked list
+			struct task_node* prodNode; 
+           		prodNode = kmalloc(sizeof (struct task_node), GFP_KERNEL);
+			
+			if(!prodNode)
+            		{
+                		printk(KERN_INFO "Error allocating memory");
+            		}
+			
+			prodNode->task = p;
+			prodNode->next = NULL;
+			
+				// add to the linked list
+			if(){
+			
+			}else{
+			
+			}
+			
+			++process_counter;
 			
 				// print statement (example) - [Producer-1] Produced Item#-12 at buffer index:1 for PID:136042
 			printk(KERN_INFO "[%s] Produced Item#-%d at buffer index:%d for PID:%d", //[Producer-1], value, index,  p->pid);
@@ -283,6 +302,11 @@ static inline long __must_check PTR_ERR(const void *ptr)
 
 ##############
 kthread_should_stop - When someone calls kthread_stop on your kthread, it will be woken and this will return true. You should then return, and your return value will be passed through to kthread_stop.
+
 kthread_run - create and wake a thread.
+
 down_interruptible() - it means if semaphore is not available the respective process will be put on the semaphore wait-queue. And task state will be change to TASK_INTERRUPTIBLE and scheduler will invoked to run any other process. Now the sleeping process can be wake up either by the event for it waiting (semaphore) or by the signal.
+
+The kmalloc() function's operation is very similar to that of user-space's familiar malloc() routine, with the exception of the addition of a flags parameter. The kmalloc() function is a simple interface for obtaining kernel memory in byte-sized chunks. If you need whole pages, the previously discussed interfaces might be a better choice. For most kernel allocations, however, kmalloc() is the preferred interface.
+format --> ptr = kmalloc(sizeof(struct dog), GFP_KERNEL);
 */

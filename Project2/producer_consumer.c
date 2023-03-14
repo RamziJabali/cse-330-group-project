@@ -177,7 +177,7 @@ static int producer(void *arg)
   
 static int consumer(void *arg)
 {
-	
+		// when kthread_stop() is called, this function will return true
 	while (!kthread_should_stop())
 	{
 			// busy wait
@@ -205,7 +205,7 @@ static int consumer(void *arg)
 			printk(KERN_INFO "" )
 		}
 			
-		long current_time = ktime_get_ns();	// get current time from api
+		long current_time = ktime_get_ns();	// current time in nanoseconds.
 		long start_time = temp->task->start_time;	// start time
 		long task_time = current_time - start_time;	// time task took to complete
 		long base = task_time/1000000000; //total time in secs
@@ -225,15 +225,10 @@ static int consumer(void *arg)
 	return 0;
 }
 
-task_struct *task;
-task->start_time // start time of the process (in nanoseconds)
-ktime_get_ns() // current time in nanoseconds.
-//Defined in include/linux/timekeeping.h
 
 // stop the kernel thread pointed by task_struct k
-kthread_stop(struct task_struct *k)
-// when kthread_stop() is called, this function will return true
-kthread_should_stop(void)
+//kthread_stop(struct task_struct *k)
+
 	
 static void __exit sema_exit(){
 	
@@ -243,6 +238,8 @@ printk(KERN_INFO "" )
   
 module_init(sema_init);
 module_exit(sema_exit);
+	
+//Defined in include/linux/timekeeping.h
 	
 /* Project Requirments
 

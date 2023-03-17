@@ -52,14 +52,6 @@ struct buffer{
 	struct task_node *head;
 } buffer;
 
-	//consumer struct declaration
-struct consumerNode{
-	struct task_struct *con_thread;
-	struct consumerNode *next;
-};
-
-struct consumerNode *head = NULL;
-
 // Define a global int to track total task time
 long total_time;
 
